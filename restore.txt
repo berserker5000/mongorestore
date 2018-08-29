@@ -1,0 +1,8 @@
+docker volume create --driver local --opt type=nfs --opt o=addr=172.28.27.210,nolock,soft,rw,vers=4.0 --opt device=:/mnt/Data/nfsshare/mongo/dev mongo_dev
+docker volume create --driver local --opt type=nfs --opt o=addr=172.28.27.210,nolock,soft,rw,vers=4.0 --opt device=:/mnt/Data/nfsshare/mongo/qa mongo_qa
+docker volume create --driver local --opt type=nfs --opt o=addr=172.28.27.210,nolock,soft,rw,vers=4.0 --opt device=:/mnt/Data/nfsshare/mongo/int mongo_int
+docker volume create --driver local --opt type=nfs --opt o=addr=172.28.27.210,nolock,soft,rw,vers=4.0 --opt device=:/mnt/Data/nfsshare/mongo/preprod mongo_preprod
+
+docker run -d --name mongorestore -v mongo_dev:/backup -e "MONGO_URI=mongodb://mongoAdmin:SIMMJqo5b_I@172.28.27.113:27019/" -e "BACKUP_NAMES=2018-08-28_11-40-00_UTC.gz"  berserker5000/mongo_restore
+
+docker stop mongorestore  && docker rm mongorestore
